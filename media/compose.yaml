@@ -9,6 +9,13 @@
 # https://github.com/TechHutTV/homelab/tree/main/media#docker-compose-and-env
 #############################################################################
 
+x-hosts-list: &hosts-list
+  - "gluetun:${SET_IP_GLUETUN}"
+  - "sonarr:${SET_IP_SONARR}"
+  - "radarr:${SET_IP_RADARR}"
+  - "lidarr:${SET_IP_LIDARR}"
+  - "bazarr:${SET_IP_BAZARR}"
+
 networks:
   servarrnetwork:
     name: servarrnetwork
@@ -38,6 +45,7 @@ services:
     # Make a '.env' file in the same directory.
     env_file:
       - .env
+    extra_hosts: *hosts-list
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
       interval: 20s
@@ -60,6 +68,7 @@ services:
     volumes:
       - ./qbittorrent:/config
       - /data:/data
+    extra_hosts: *hosts-list
     depends_on:
       gluetun:
         condition: service_healthy
@@ -96,6 +105,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./nzbget:/config
       - /data:/data
+    extra_hosts: *hosts-list
     depends_on:
       gluetun:
         condition: service_healthy
@@ -114,6 +124,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./prowlarr:/config
     restart: unless-stopped
+    extra_hosts: *hosts-list
     depends_on:
       gluetun:
         condition: service_healthy
@@ -132,6 +143,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./sonarr:/config
       - /data:/data
+    extra_hosts: *hosts-list
     ports:
       - 8989:8989
     networks:
@@ -150,6 +162,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./radarr:/config
       - /data:/data
+    extra_hosts: *hosts-list
     ports:
       - 7878:7878
     networks:
@@ -168,6 +181,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+    extra_hosts: *hosts-list
     ports:
       - 8686:8686
     networks:
@@ -186,6 +200,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./bazarr:/config
       - /data:/data
+    extra_hosts: *hosts-list
     ports:
       - 6767:6767
     networks:
