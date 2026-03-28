@@ -27,7 +27,7 @@ services:
       - /dev/net/tun:/dev/net/tun # If running on an LXC see readme for more info.
     networks:
       servarrnetwork:
-        ipv4_address: 172.39.0.2
+        ipv4_address: ${SET_IP_GLUETUN}
     ports:
       - 8080:8080 # qbittorrent web interface
       - 6881:6881 # qbittorrent torrent port
@@ -152,7 +152,7 @@ services:
       - 8989:8989
     networks:
       servarrnetwork:
-        ipv4_address: 172.39.0.3
+        ipv4_address: ${SET_IP_SONARR}
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -170,7 +170,7 @@ services:
       - 7878:7878
     networks:
       servarrnetwork:
-        ipv4_address: 172.39.0.4
+        ipv4_address: ${SET_IP_RADARR}
 
   lidarr:
     container_name: lidarr
@@ -188,7 +188,7 @@ services:
       - 8686:8686
     networks:
       servarrnetwork:
-        ipv4_address: 172.39.0.5
+        ipv4_address: ${SET_IP_LIDARR}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -206,7 +206,7 @@ services:
       - 6767:6767
     networks:
       servarrnetwork:
-        ipv4_address: 172.39.0.6
+        ipv4_address: ${SET_IP_BAZARR}
 
   seerr:
     container_name: seerr
@@ -230,4 +230,4 @@ services:
 
     networks:
       servarrnetwork:
-        ipv4_address: 172.39.0.7
+        ipv4_address: ${SET_IP_SEERR}
